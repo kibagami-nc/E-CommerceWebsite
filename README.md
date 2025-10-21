@@ -35,8 +35,7 @@ simpleWebApp/
 │   │       └── templates/                      # Templates HTML
 │   │           └── products.html
 │   └── test/                                   # Tests unitaires
-├── pom.xml                                      # Configuration Maven
-└── README.md                                    # Ce fichier
+└── pom.xml                                      # Configuration Maven
 ```
 
 ## 🚀 Installation et Démarrage
