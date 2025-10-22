@@ -2,18 +2,27 @@ package com.kibagami.simpleWebApp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.stereotype.Component;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 
 /**
  * Modèle représentant un produit.
  * Contient les propriétés basiques : id, name et price.
  * On fournit des getters/setters classiques pour la sérialisation/désérialisation.
+ * Annoté @Entity pour la persistance JPA avec la base de données H2.
  */
-@Component
+@Entity
 public class Product {
 
-    // Identifiant interne du produit (visible en interne mais non renvoyé au client)
+    /**
+     * Identifiant unique du produit, généré automatiquement par la base de données.
+     * Exposé via le getter getProdId() sous la clé "prodId" dans le JSON.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private double price;

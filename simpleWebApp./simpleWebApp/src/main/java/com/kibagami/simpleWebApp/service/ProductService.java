@@ -1,66 +1,61 @@
 package com.kibagami.simpleWebApp.service;
 
 import com.kibagami.simpleWebApp.model.Product;
+import com.kibagami.simpleWebApp.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
- * Service qui gère les opérations en mémoire sur les produits.
- * Dans cette version simple, les produits sont stockés dans une liste en mémoire.
- * Dans une vraie application, on remplacerait cela par un accès à une base de données.
+ * Service qui gère les opérations sur les produits.
+ * Utilise ProductRepository pour la persistance en base de données H2.
  */
 @Service
 public class ProductService {
 
-    // Liste initiale de produits en mémoire
-    List<Product> products = new ArrayList<>(Arrays.asList(
-            new Product(101, "Laptop", 999.99),
-            new Product(102, "Smartphone", 499.99),
-            new Product(103, "Tablet", 299.99)));
+    @Autowired
+    private ProductRepository repository;
 
     /**
-     * Retourne la liste complète des produits.
+     * Retourne la liste complète des produits depuis la base de données.
      * @return liste de produits
      */
     public List<Product> getProducts() {
-        return products;
-
+        return repository.findAll();
     }
 
     /**
-     * Récupère un produit par son identifiant interne.
+     * Récupère un produit par son identifiant depuis la base de données.
      * @param prodId identifiant recherché
      * @return produit trouvé ou produit factice indiquant "Product Not Found"
      */
     public Product getProductsById(int prodId) {
-        return products.stream()
-                .filter(p -> p.getProdId()== prodId)
-                .findFirst().orElse(new Product(0, "Product Not Found", 0));
+        return repository.findById(prodId)
+                .orElse(new Product(0, "Product Not Found", 0));
     }
 
     /**
-     * Ajoute un produit à la liste en mémoire.
+     * Ajoute un produit dans la base de données.
      * @param product produit à ajouter
      */
     public void addProduct(Product product) {
-        products.add(product);
+        repository.save(product);
     }
 
+    /**
+     * Met à jour un produit existant dans la base de données.
+     * @param product produit à mettre à jour
+     */
     public void updateProduct(Product product) {
-        for (int i = 0; i < products.size(); i++) {
-            Product p = products.get(i);
-            if (p.getProdId() == product.getProdId()) {
-                products.set(i, product);
-                return;
-            }
-        }
-
+        repository.save(product);
     }
 
+    /**
+     * Supprime un produit de la base de données par son identifiant.
+     * @param prodId identifiant du produit à supprimer
+     */
     public void deleteProduct(int prodId) {
-        products.removeIf(p -> p.getProdId() == prodId);
+        repository.deleteById(prodId);
     }
 }
