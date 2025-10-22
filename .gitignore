@@ -59,9 +59,5 @@ hs_err_pid*
 *.local
 local.properties
 
-# Don't ignore the Maven wrapper jar - it's tracked by default
-# .mvn/wrapper/maven-wrapper.jar
-
-# Allow exceptions (examples)
 # !/important-file.txt
 
