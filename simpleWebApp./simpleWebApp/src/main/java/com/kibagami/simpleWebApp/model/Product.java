@@ -1,6 +1,7 @@
 package com.kibagami.simpleWebApp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.stereotype.Component;
 
 
@@ -28,7 +29,7 @@ public class Product {
 
     /**
      * Getter pour l'id. Annoté @JsonIgnore pour que l'id ne soit pas sérialisé
-     * dans la réponse JSON (utile si on ne veut pas exposer l'ID dans Postman/UI).
+     * dans la réponse JSON (utile si on ne veut pas exposer l'ID sous la clé "id").
      * @return identifiant interne
      */
     @JsonIgnore
@@ -57,11 +58,17 @@ public class Product {
     }
 
     /**
-     * Getter alternatif pour l'usage interne si besoin (également ignoré pour la sérialisation).
+     * Expose explicitement l'identifiant sous la clé "prodId" dans le JSON
+     * de sortie et accepte aussi "prodId" à la désérialisation.
      */
-    @JsonIgnore
+    @JsonProperty("prodId")
     public int getProdId() {
         return id;
+    }
+
+    @JsonProperty("prodId")
+    public void setProdId(int id) {
+        this.id = id;
     }
 
     @Override

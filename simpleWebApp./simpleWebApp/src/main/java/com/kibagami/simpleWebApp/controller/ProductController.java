@@ -51,4 +51,17 @@ public class ProductController {
         service.addProduct(product);
     }
 
+    @PutMapping("/products")
+    public void updateProduct(@RequestBody Product product) {
+        // Affiche dans la console à des fins de debug
+        service.updateProduct(product);
+        System.out.println(product);
+    }
+
+    @DeleteMapping("/products/{prodId}")
+    public void deleteProduct(@PathVariable int prodId) {
+        service.deleteProduct(prodId);
+        System.out.println("Deleted product with id: " + prodId);
+    }
+
 }
