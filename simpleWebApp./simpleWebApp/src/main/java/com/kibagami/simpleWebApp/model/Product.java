@@ -1,14 +1,18 @@
 package com.kibagami.simpleWebApp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.springframework.stereotype.Component;
 
 
+/**
+ * Modèle représentant un produit.
+ * Contient les propriétés basiques : id, name et price.
+ * On fournit des getters/setters classiques pour la sérialisation/désérialisation.
+ */
 @Component
 public class Product {
 
+    // Identifiant interne du produit (visible en interne mais non renvoyé au client)
     private int id;
     private String name;
     private double price;
@@ -22,6 +26,12 @@ public class Product {
     public Product() {
     }
 
+    /**
+     * Getter pour l'id. Annoté @JsonIgnore pour que l'id ne soit pas sérialisé
+     * dans la réponse JSON (utile si on ne veut pas exposer l'ID dans Postman/UI).
+     * @return identifiant interne
+     */
+    @JsonIgnore
     public int getId() {
         return id;
     }
@@ -46,6 +56,9 @@ public class Product {
         this.name = name;
     }
 
+    /**
+     * Getter alternatif pour l'usage interne si besoin (également ignoré pour la sérialisation).
+     */
     @JsonIgnore
     public int getProdId() {
         return id;
