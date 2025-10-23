@@ -19,11 +19,10 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) throws Exception {
         // Ajoute des produits initiaux si la base est vide
         if (repository.count() == 0) {
-            repository.save(new Product(0, "Laptop", 999.99));
-            repository.save(new Product(0, "Smartphone", 499.99));
-            repository.save(new Product(0, "Tablet", 299.99));
+            repository.save(new Product(null, "Laptop", 999.99));
+            repository.save(new Product(null, "Smartphone", 499.99));
+            repository.save(new Product(null, "Tablet", 299.99));
             System.out.println("Base de données initialisée avec 3 produits.");
         }
     }
 }
-

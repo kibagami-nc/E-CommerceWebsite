@@ -3,6 +3,8 @@ package com.kibagami.simpleWebApp.controller;
 import com.kibagami.simpleWebApp.model.Product;
 import com.kibagami.simpleWebApp.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,23 +47,30 @@ public class ProductController {
      * @param product objet Product désérialisé depuis la requête
      */
     @PostMapping("/products")
-    public void addProduct(@RequestBody Product product) {
-        // Affiche dans la console à des fins de debug
-        System.out.println(product);
-        service.addProduct(product);
+    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
+        // Debug log
+        System.out.println("Incoming product for create: " + product);
+        Product saved = service.addProduct(product);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
+    /**
+     * Met à jour un produit existant. Le produit mis à jour est envoyé en JSON dans le corps de la requête.
+     * PUT /products
+     * @param product objet Product désérialisé depuis la requête
+     */
     @PutMapping("/products")
-    public void updateProduct(@RequestBody Product product) {
-        // Affiche dans la console à des fins de debug
-        service.updateProduct(product);
-        System.out.println(product);
+    public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
+        Product updated = service.updateProduct(product);
+        System.out.println("Updated product: " + updated);
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/products/{prodId}")
-    public void deleteProduct(@PathVariable int prodId) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable int prodId) {
         service.deleteProduct(prodId);
         System.out.println("Deleted product with id: " + prodId);
+        return ResponseEntity.noContent().build();
     }
 
 }

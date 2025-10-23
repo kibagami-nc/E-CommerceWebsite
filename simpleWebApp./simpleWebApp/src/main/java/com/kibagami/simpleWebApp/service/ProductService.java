@@ -32,23 +32,26 @@ public class ProductService {
      */
     public Product getProductsById(int prodId) {
         return repository.findById(prodId)
-                .orElse(new Product(0, "Product Not Found", 0));
+                .orElse(new Product(null, "Product Not Found", 0));
     }
 
     /**
      * Ajoute un produit dans la base de données.
+     * Retourne l'entité persistée (avec l'id généré).
      * @param product produit à ajouter
      */
-    public void addProduct(Product product) {
-        repository.save(product);
+    public Product addProduct(Product product) {
+        // s'assurer que l'id n'est pas forcé par le client
+        product.setId(null);
+        return repository.save(product);
     }
 
     /**
      * Met à jour un produit existant dans la base de données.
      * @param product produit à mettre à jour
      */
-    public void updateProduct(Product product) {
-        repository.save(product);
+    public Product updateProduct(Product product) {
+        return repository.save(product);
     }
 
     /**
